@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Test CatFacts</string>
+    <string name="text_view_cat_fact">Кошачий факт:</string>
+</resources>
