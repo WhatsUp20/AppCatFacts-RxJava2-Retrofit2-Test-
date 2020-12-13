@@ -26,26 +26,25 @@ public class CatsListActivity extends AppCompatActivity implements CatsView{
 
     private RecyclerView recyclerView;
     private CatsAdapter adapter;
-    private CompositeDisposable compositeDisposable;
+    private CatsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        presenter = new CatsPresenter(this);
         recyclerView = findViewById(R.id.recyclerView);
-        compositeDisposable = new CompositeDisposable();
         adapter = new CatsAdapter();
         adapter.setCats(new ArrayList<Cat>());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        presenter.loadData();
 
     }
 
     @Override
     protected void onDestroy() {
-        if (compositeDisposable != null) {
-            compositeDisposable.dispose();
-        }
+        presenter.disposeDisposable();
         super.onDestroy();
     }
 

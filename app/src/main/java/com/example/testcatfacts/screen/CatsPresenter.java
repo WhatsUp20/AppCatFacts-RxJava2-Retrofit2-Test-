@@ -25,6 +25,7 @@ public class CatsPresenter {
     public void loadData() {
         ApiFactory apiFactory = ApiFactory.getInstance();
         ApiService apiService = apiFactory.getApiService();
+        compositeDisposable = new CompositeDisposable();
         Disposable disposable = apiService.getAllCatsFacts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -40,6 +41,12 @@ public class CatsPresenter {
                     }
                 });
         compositeDisposable.add(disposable);
+    }
+
+    public void disposeDisposable() {
+        if (compositeDisposable != null) {
+            compositeDisposable.dispose();
+        }
     }
 
 }
