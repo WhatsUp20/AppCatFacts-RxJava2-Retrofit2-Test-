@@ -1,6 +1,8 @@
 package com.example.testcatfacts.screen;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +13,7 @@ import com.example.testcatfacts.R;
 import com.example.testcatfacts.adapter.CatsAdapter;
 import com.example.testcatfacts.api.ApiFactory;
 import com.example.testcatfacts.api.ApiService;
+import com.example.testcatfacts.database.CatsViewModel;
 import com.example.testcatfacts.pojo.Cat;
 
 import java.util.ArrayList;
@@ -22,39 +25,29 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class CatsListActivity extends AppCompatActivity implements CatsView{
+public class CatsListActivity extends AppCompatActivity{
 
     private RecyclerView recyclerView;
     private CatsAdapter adapter;
-    private CatsPresenter presenter;
+    private CatsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new CatsPresenter(this);
+        viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(CatsViewModel.class);
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new CatsAdapter();
         adapter.setCats(new ArrayList<Cat>());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        presenter.loadData();
+        viewModel.getCats().observe(this, new Observer<List<Cat>>() {
+            @Override
+            public void onChanged(List<Cat> cats) {
+                adapter.setCats(cats);
+            }
+        });
+        viewModel.loadData();
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        presenter.disposeDisposable();
-        super.onDestroy();
-    }
-
-    @Override
-    public void showData(List<Cat> cats) {
-        adapter.setCats(cats);
-    }
-
-    @Override
-    public void showError() {
-        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.testcatfacts.screen;
 
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.example.testcatfacts.api.ApiFactory;
@@ -21,6 +22,8 @@ public class CatsPresenter {
     public CatsPresenter(CatsView view) {
         this.view = view;
     }
+
+
 
     public void loadData() {
         ApiFactory apiFactory = ApiFactory.getInstance();
