@@ -6,7 +6,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiFactory {
-    private static ApiFactory apiFactory;
+    private static ApiFactory factory;
     private static final String BASE_URL = "https://cat-fact.herokuapp.com";
     private static Retrofit retrofit;
 
@@ -19,14 +19,13 @@ public class ApiFactory {
     }
 
     public static ApiFactory getInstance() {
-        if (apiFactory == null) {
-            apiFactory = new ApiFactory();
+        if (factory == null) {
+            factory = new ApiFactory();
         }
-
-        return apiFactory;
+        return factory;
     }
 
-    public ApiService getApiService() {
+    public ApiService getApiService () {
         return retrofit.create(ApiService.class);
     }
 }

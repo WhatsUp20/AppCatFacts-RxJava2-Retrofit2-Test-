@@ -9,5 +9,5 @@ import retrofit2.http.GET;
 
 public interface ApiService {
     @GET("facts")
-    Observable<List<Cat>> getAllCatsFacts();
+    Observable<List<Cat>> getAllFacts();
 }
