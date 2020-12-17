@@ -4,7 +4,7 @@ import com.example.testcatfacts.pojo.Cat;
 
 import java.util.List;
 
-public interface CatView {
+public interface CatsView {
     void showData(List<Cat> cats);
 
     void showError();

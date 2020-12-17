@@ -1,5 +1,7 @@
 package com.example.testcatfacts.screen;
 
+import android.widget.Toast;
+
 import com.example.testcatfacts.api.ApiFactory;
 import com.example.testcatfacts.api.ApiService;
 import com.example.testcatfacts.pojo.Cat;
@@ -12,20 +14,19 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class CatPresenter {
-
+public class CatsPresenter {
     private CompositeDisposable compositeDisposable;
-    private CatView view;
+    private CatsView view;
 
-    public CatPresenter(CatView view) {
+    public CatsPresenter(CatsView view) {
         this.view = view;
     }
 
     public void loadData() {
-        compositeDisposable = new CompositeDisposable();
         ApiFactory apiFactory = ApiFactory.getInstance();
         ApiService apiService = apiFactory.getApiService();
-        Disposable disposable = apiService.getAllFacts()
+        compositeDisposable = new CompositeDisposable();
+        Disposable disposable = apiService.getAllCatsFacts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Cat>>() {
@@ -37,7 +38,6 @@ public class CatPresenter {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         view.showError();
-                        throwable.getMessage();
                     }
                 });
         compositeDisposable.add(disposable);
@@ -48,4 +48,5 @@ public class CatPresenter {
             compositeDisposable.dispose();
         }
     }
+
 }

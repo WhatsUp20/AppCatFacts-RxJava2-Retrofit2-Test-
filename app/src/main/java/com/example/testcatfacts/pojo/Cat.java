@@ -1,12 +1,8 @@
 package com.example.testcatfacts.pojo;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "cats")
 public class Cat {
 
     @SerializedName("type")
@@ -17,8 +13,7 @@ public class Cat {
     private boolean deleted;
     @SerializedName("_id")
     @Expose
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+    private String id;
     @SerializedName("user")
     @Expose
     private String user;
@@ -58,11 +53,11 @@ public class Cat {
         this.deleted = deleted;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
